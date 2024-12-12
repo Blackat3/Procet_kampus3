@@ -1,7 +1,7 @@
  class Peminjaman {
-    private BukuSewa buku;
-    private int jumlahHari;
-    private DiskonSewa diskon;
+     BukuSewa buku;
+     int jumlahHari;
+     DiskonSewa diskon;
 
     public Peminjaman(BukuSewa buku, int jumlahHari, DiskonSewa diskon) {
         this.buku = buku;
