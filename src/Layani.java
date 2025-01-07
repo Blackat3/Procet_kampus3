@@ -1,49 +1,53 @@
 import java.util.Scanner;
 
+
 public class Layani {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Kategori buku (Cerpen/Komik/Ensiklopedia): ");
-        String kategori = scanner.nextLine();
+        Buku buku1 = new Buku("Pemrograman Java", "Andi", 2000);
+        Buku buku2 = new Buku("Algoritma dan Struktur Data", "Budi", 3000);
 
-        System.out.print("Judul buku: ");
-        String judul = scanner.nextLine();
-        System.out.print("Penulis buku: ");
-        String penulis = scanner.nextLine();
-        System.out.print("Harga sewa buku per hari: ");
-        int harga = scanner.nextInt();
+        System.out.println("Pilih jenis peminjam:");
+        System.out.println("1. Non-Member");
+        System.out.println("2. Member");
+        System.out.print("Pilihan: ");
+        int pilihan = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
 
-        System.out.print("Jumlah hari peminjaman: ");
-        int jmlHari = scanner.nextInt();
+        System.out.print("Masukkan nama peminjam: ");
+        String nama = scanner.nextLine();
 
-        System.out.print("Diskon (0 jika tidak ada): ");
-        int nominalDiskon = scanner.nextInt();
-
-        BukuSewa buku;
-        if (kategori.equalsIgnoreCase("Cerpen")) {
-            buku = new Cerpen(judul, penulis, harga);
-        } else if (kategori.equalsIgnoreCase("Komik")) {
-            buku = new Komik(judul, penulis, harga);
-        } else if (kategori.equalsIgnoreCase("Ensiklopedia")) {
-            buku = new Ensiklopedia(judul, penulis, harga);
+        Peminjam peminjam;
+        if (pilihan == 2) {
+            peminjam = new PeminjamMember(nama);
         } else {
-            System.out.println("Kategori tidak valid. Menggunakan kategori default.");
-            buku = new BukuSewa(judul, penulis, harga);
+            peminjam = new Peminjam(nama);
         }
 
-        DiskonSewa diskon = nominalDiskon > 0 ? new DiskonSewa(nominalDiskon) : null;
-        Peminjaman peminjaman = new Peminjaman(buku, jmlHari, diskon);
+        System.out.println("Pilih buku:");
+        System.out.println("1. " + buku1.getJudul() + " oleh " + buku1.getPenulis() + " (" + buku1.getHargaSewaPerHari() + "/hari)");
+        System.out.println("2. " + buku2.getJudul() + " oleh " + buku2.getPenulis() + " (" + buku2.getHargaSewaPerHari() + "/hari)");
+        System.out.print("Pilihan: ");
+        int pilihanBuku = scanner.nextInt();
 
-        System.out.println("==== Informasi Peminjaman ====");
-        System.out.println("Buku: " + buku.toString());
-        System.out.println("Harga sewa buku per hari: " + harga);
-        System.out.println("Jumlah hari peminjaman: " + jmlHari);
-        System.out.println("Harga Total Tanpa Diskon: " + peminjaman.hitungHargaTotal());
+        Buku bukuDipilih = (pilihanBuku == 1) ? buku1 : buku2;
 
-        if (diskon != null) {
-            System.out.println("Total Harga Setelah Diskon: " + peminjaman.hitungHargaSetelahDiskon());
+        System.out.print("Masukkan jumlah hari peminjaman: ");
+        int jumlahHari = scanner.nextInt();
+
+        Peminjaman peminjaman = new Peminjaman(bukuDipilih, jumlahHari);
+
+        System.out.println("\n=== Rincian Peminjaman ===");
+        System.out.println("Nama Peminjam: " + peminjam.getNama());
+        System.out.println("Judul Buku: " + bukuDipilih.getJudul());
+        System.out.println("Harga Total: Rp " + peminjaman.hitungHargaTotal());
+
+        if (peminjam instanceof PeminjamMember) {
+            System.out.println("Harga Setelah Diskon: Rp " + peminjaman.hitungHargaSetelahDiskon(peminjam));
         }
-        System.out.println("========");
+
+        scanner.close();
     }
 }
+

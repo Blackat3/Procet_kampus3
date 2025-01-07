@@ -1,23 +1,11 @@
- class Peminjaman {
-     BukuSewa buku;
-     int jumlahHari;
-     DiskonSewa diskon;
+class Peminjam {
+    private String nama;
 
-    public Peminjaman(BukuSewa buku, int jumlahHari, DiskonSewa diskon) {
-        this.buku = buku;
-        this.jumlahHari = jumlahHari;
-        this.diskon = diskon;
+    public Peminjam(String nama) {
+        this.nama = nama;
     }
 
-    public int hitungHargaTotal() {
-        return buku.getHargaSewaPerHari() * jumlahHari;
-    }
-
-    public int hitungHargaSetelahDiskon() {
-        int hargaTotal = hitungHargaTotal();
-        if (diskon != null) {
-            return hargaTotal - diskon.getNominalDiskon();
-        }
-        return hargaTotal;
+    public String getNama() {
+        return nama;
     }
 }
