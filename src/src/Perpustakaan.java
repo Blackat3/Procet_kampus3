@@ -21,7 +21,7 @@ public class Perpustakaan {
                 System.out.println("5. Keluar");
                 System.out.print("Pilihan: ");
                 int pilihan = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
 
                 switch (pilihan) {
                     case 1:
@@ -47,7 +47,7 @@ public class Perpustakaan {
                         System.out.println("2. Member");
                         System.out.print("Pilihan: ");
                         int jenisPeminjam = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
+                        scanner.nextLine();
 
                         if (jenisPeminjam < 1 || jenisPeminjam > 2) {
                             throw new IllegalArgumentException("Pilihan jenis peminjam tidak valid.");
