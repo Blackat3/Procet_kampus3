@@ -1,12 +1,12 @@
 class PeminjamMember extends Peminjam {
-    private int diskonPersen;
+    private float diskonPersen;
 
-    public PeminjamMember(String nama, int diskonPersen) {
+    public PeminjamMember(String nama, float diskonPersen) {
         super(nama);
         this.diskonPersen = diskonPersen;
     }
 
-    public int getDiskonPersen() {
+    public float getDiskonPersen() {
         return diskonPersen;
     }
 }

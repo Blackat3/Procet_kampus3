@@ -25,6 +25,8 @@ public class Perpustakaan {
 
                 switch (pilihan) {
                     case 1:
+                        System.out.print("Masukkan ID buku: ");
+                        String id = scanner.nextLine();
                         System.out.print("Masukkan judul buku: ");
                         String judul = scanner.nextLine();
                         System.out.print("Masukkan penulis buku: ");
@@ -32,7 +34,7 @@ public class Perpustakaan {
                         System.out.print("Masukkan harga sewa per hari: ");
                         int hargaSewa = scanner.nextInt();
 
-                        daftarBuku.add(new Buku(judul, penulis, hargaSewa));
+                        daftarBuku.add(new Buku(id, judul, penulis, hargaSewa));
                         System.out.println("Buku berhasil ditambahkan.\n");
                         break;
 
@@ -61,15 +63,18 @@ public class Perpustakaan {
                             System.out.print("Masukkan nama buku yang ingin dipinjam: ");
                             String namaBuku = scanner.nextLine();
 
+                            System.out.print("Masukkan ID buku: ");
+                            String idBuku = scanner.nextLine();
+
                             for (Buku buku : daftarBuku) {
-                                if (buku.getJudul().equalsIgnoreCase(namaBuku)) {
+                                if (buku.getId().equalsIgnoreCase(idBuku) && buku.getJudul().equalsIgnoreCase(namaBuku)) {
                                     bukuDipilih = buku;
                                     break;
                                 }
                             }
 
                             if (bukuDipilih == null) {
-                                System.out.println("Judul buku tidak ada. Silakan masukkan ulang.");
+                                System.out.println("Nama atau ID buku tidak sesuai. Silakan masukkan ulang.");
                             }
                         }
 
@@ -83,7 +88,7 @@ public class Perpustakaan {
                         Peminjam peminjam;
                         if (jenisPeminjam == 2) {
                             System.out.print("Masukkan diskon untuk member: ");
-                            int diskonPersen = scanner.nextInt();
+                            float diskonPersen = scanner.nextFloat();
 
                             if (diskonPersen < 0 || diskonPersen > 100) {
                                 throw new IllegalArgumentException("Diskon harus antara 0 hingga 100.");
@@ -94,7 +99,7 @@ public class Perpustakaan {
                             peminjam = new Peminjam(nama);
                         }
 
-                        Peminjaman peminjaman = new Peminjaman(bukuDipilih, jumlahHari);
+                        Peminjaman peminjaman = new Peminjaman(bukuDipilih, jumlahHari, peminjam);
                         daftarPeminjaman.add(peminjaman);
 
                         System.out.println("\n=== Rincian Peminjaman ===");
@@ -103,7 +108,7 @@ public class Perpustakaan {
                         System.out.println("Harga Total: Rp " + peminjaman.hitungHargaTotal());
 
                         if (peminjam instanceof PeminjamMember) {
-                            System.out.println("Harga Setelah Diskon: Rp " + peminjaman.hitungHargaSetelahDiskon(peminjam));
+                            System.out.println("Harga Setelah Diskon: Rp " + peminjaman.hitungHargaSetelahDiskon());
                         }
 
                         break;
@@ -114,7 +119,7 @@ public class Perpustakaan {
                         } else {
                             System.out.println("\n=== Daftar Buku ===");
                             for (Buku buku : daftarBuku) {
-                                System.out.printf("- %s penulis %s (%d/hari)\n", buku.getJudul(), buku.getPenulis(), buku.getHargaSewaPerHari());
+                                System.out.printf("- ID: %s, Judul Buku: %s, penulis: %s, Harga: %d/hari\n", buku.getId(), buku.getJudul(), buku.getPenulis(), buku.getHargaSewaPerHari());
                             }
                             System.out.println();
                         }
@@ -127,7 +132,8 @@ public class Perpustakaan {
                             System.out.println("\n=== Daftar Peminjaman ===");
                             int no = 1;
                             for (Peminjaman datapeminjaman : daftarPeminjaman) {
-                                System.out.printf("%d. Nama Peminjam: %s\n", no++, datapeminjaman.getBuku().getPenulis());
+                                System.out.printf("%d. Nama Peminjam: %s\n", no++, datapeminjaman.getPeminjam().getNama());
+                                System.out.printf("   ID Buku: %s\n", datapeminjaman.getBuku().getId());
                                 System.out.printf("   Judul Buku: %s\n", datapeminjaman.getBuku().getJudul());
                                 System.out.printf("   Harga Total: Rp %d\n", datapeminjaman.hitungHargaTotal());
                             }
@@ -144,7 +150,7 @@ public class Perpustakaan {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Input tidak valid. Harap masukkan angka.");
-                scanner.nextLine(); // Clear buffer
+                scanner.nextLine();
             } catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage());
             } catch (Exception e) {
