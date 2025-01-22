@@ -159,7 +159,6 @@ public class Perpustakaan {
                 System.out.println();
             }
         }
-
         System.out.println("Terima kasih telah menggunakan layanan kami.");
         scanner.close();
     }
